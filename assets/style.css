@@ -429,8 +429,15 @@ html[lang="en"] .hero-title{font-size:clamp(1.5rem,2.2vw,2.2rem)}
 @media (max-width:768px),(orientation:portrait){
   .hero-media{-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 16%,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,transparent 0,#000 16%,#000 82%,transparent 100%)}
   .hero-text{max-width:none}
+  html[lang="en"] .hero-text{max-width:none}
+  .hero-text .btns{flex-wrap:wrap}
   .hero-text .btns .btn{flex:1 1 auto;padding:.8em 1.2em;white-space:nowrap}
   .hero-title,html[lang="en"] .hero-title{font-size:min(5vw,1.5rem)}
+  /* 覆盖块里未加媒体查询的两栏设定（.ip-card / .spec）会盖掉文件前部的手机单栏，这里重新声明 */
+  .two-col,.compare,.ip-card{grid-template-columns:1fr;gap:1.6rem}
+  .ip-card .cover{max-width:260px}
+  .spec{grid-template-columns:1fr;gap:.2em}
+  .spec dd{margin-bottom:1em}
 }
 
 /* ---- 滚动淡入（assets/reveal.js 给元素加 .rv，进入视口加 .in；一次只动一样，错峰出现） ---- */
@@ -495,13 +502,9 @@ html[lang="en"] .char-caption p{font-size:1.15rem}
   .chips span{border:1px solid rgba(201,169,106,.3);padding:.7em .6em}
   .chips span:first-child{border-left:1px solid rgba(201,169,106,.3)}
   .btns .btn,.cta-row .btn{flex:1 1 100%}
-  /* 菜单：展开/收起做 .5s 柔和过渡，而不是瞬间出现 */
-  .js .site-nav{display:flex;max-height:0;opacity:0;overflow:hidden;visibility:hidden;margin-top:-1rem;
-    transition:max-height .5s var(--ease),opacity .4s var(--ease),margin-top .5s var(--ease),visibility 0s linear .5s}
-  .js .site-nav.open{max-height:560px;opacity:1;visibility:visible;margin-top:0;transition-delay:0s}
-  .site-nav{gap:1rem}
-  .site-nav ul{gap:.4rem}
-  .site-nav ul a{display:inline-block;padding:.45em 0}
+  .two-col,.compare,.ip-card{grid-template-columns:1fr;gap:1.6rem}
+  .ip-card .cover{max-width:260px}
+  /* 菜单过渡保留在下方 1100 查询中（字号加大后 768 宽桌面导航已放不下） */
   .spec{grid-template-columns:1fr;gap:.2em}
   .spec dd{margin-bottom:1em}
   .char-stage{--cw:clamp(150px,52vw,210px);height:clamp(330px,88vw,380px)}
@@ -513,8 +516,18 @@ html[lang="en"] .char-caption p{font-size:1.15rem}
   .char-caption{min-height:10em}
   .char-modal-box{margin:.6rem;padding:1rem}
 }
-@media (max-width:1100px) and (min-width:761px){
-  .site-nav,.site-nav ul{gap:1.3rem}
+/* 覆盖块把导航字号从 .86rem 提到 1rem 后，1100 以下横排会换行或溢出，改为与手机相同的汉堡菜单 */
+@media (max-width:1100px){
+  .menu-btn{display:inline-block;order:3;margin-left:.55rem}
+  .lang-bar{display:inline-flex;align-items:center;order:2;margin-left:auto;padding:.4em 0;white-space:nowrap;min-height:44px}
+  .brand{order:1}
+  .site-nav{order:4;flex-direction:column;align-items:flex-start;gap:1rem;width:100%}
+  .site-nav > .lang{display:none}
+  .site-nav ul{flex-direction:column;gap:.4rem;width:100%}
+  .site-nav ul a{display:inline-block;padding:.45em 0}
+  .js .site-nav{display:flex;max-height:0;opacity:0;overflow:hidden;visibility:hidden;margin-top:-1rem;
+    transition:max-height .5s var(--ease),opacity .4s var(--ease),margin-top .5s var(--ease),visibility 0s linear .5s}
+  .js .site-nav.open{max-height:560px;opacity:1;visibility:visible;margin-top:0;transition-delay:0s}
 }
 
 /* ---- 尊重 prefers-reduced-motion：全部过渡与漂移关闭 ---- */
